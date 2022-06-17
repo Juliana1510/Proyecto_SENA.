@@ -15,6 +15,13 @@ create table sesion
     primary key (usu_login)
 );
 
+create table roles 
+(
+cod_rol int,
+desc_rol varchar (30) not null,
+primary key (cod_rol)
+);
+
 create table persona
 (
     pk_fk_tdoc varchar(10),
@@ -26,28 +33,14 @@ create table persona
     apellido2_persona varchar(25) null,
     direccion_persona varchar(45) not null,
     telefono bigint not null,
+    rol int,
     primary key (pk_fk_tdoc, id_persona, pk_fk_usu_login),
     foreign key (pk_fk_tdoc) REFERENCES tipo_documento (tdoc),
-    foreign key (pk_fk_usu_login) references sesion (usu_login)
-);
+    foreign key (pk_fk_usu_login) references sesion (usu_login),
+    foreign key (rol) references roles (cod_rol)
+ ) ;
 
-create table roles 
-(
-cod_rol int,
-desc_rol varchar (30) not null,
-primary key (cod_rol)
-);
 
-create table persona_roles 
-(
-    persona_tdoc varchar(10),
-    persona_id int,
-    persona_rol int,
-    estado_rol boolean not null,
-    primary key (persona_tdoc, persona_id, persona_rol),
-    foreign key (persona_tdoc, persona_id) REFERENCES persona (pk_fk_tdoc, id_persona),
-    foreign key (persona_rol) REFERENCES roles (cod_rol)
-);
 
 create table factura
 (
@@ -183,18 +176,11 @@ insert into roles values
 ('504','Auxiliar');
 
 insert into persona values
-('1025525109','1001','sscortes9@misena.edu.co','Samuel','Steban','Cortes','Arevalo','Calle 44 sur #72-22','3507930509'),
-('1025142224','1002','kabarrera42@misena.edu.co','Kevin','Andres','Barrera','Arias','Calle 8C #87B-75 Ca 87','3508389976'),
-('1104695264','1003','nyavendano46@misena.edu.co','Nicoll','Yuliana','Avendaño','Morales','Cra 2 este #2-04','3138291580'),
-('1023365027','1004','casolano72@misena.edu.co','Cristian','Andres','Solano','Duarte','Calle 67f #65a-2','3134056307'),
-('1074958472','1005','ljalvarez274@misena.edu.co','Loren','Juliana','Alvarez','Florido','Cra 58 #163-55','3115396816');
-
-insert into persona_roles values
-('1025525109','1001','504','0'), /*samuel*/
-('1025142224','1002','504','0'), /*kevin*/
-('1104695264','1003','502','0'), /*nicoll*/
-('1023365027','1004','501','0'), /*cristian*/
-('1074958472','1005','503','0'); /*loren*/
+('1025525109','1001','sscortes9@misena.edu.co','Samuel','Steban','Cortes','Arevalo','Calle 44 sur #72-22','3507930509','504'),
+('1025142224','1002','kabarrera42@misena.edu.co','Kevin','Andres','Barrera','Arias','Calle 8C #87B-75 Ca 87','3508389976','504'),
+('1104695264','1003','nyavendano46@misena.edu.co','Nicoll','Yuliana','Avendaño','Morales','Cra 2 este #2-04','3138291580','502'),
+('1023365027','1004','casolano72@misena.edu.co','Cristian','Andres','Solano','Duarte','Calle 67f #65a-2','3134056307','501'),
+('1074958472','1005','ljalvarez274@misena.edu.co','Loren','Juliana','Alvarez','Florido','Cra 58 #163-55','3115396816','503');
 
 insert into marcas values
 ('201','gsk'),
